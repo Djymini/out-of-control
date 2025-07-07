@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx7itu4jsixfe"]
+
+[ext_resource type="Script" uid="uid://d10yilpt2a7ja" path="res://scripts/Player/Racket.cs" id="1_s0bey"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
+size = Vector2(128, 16)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_6khme"]
+
+[node name="Racket" type="CharacterBody2D"]
+script = ExtResource("1_s0bey")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0e48y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(128, 16)
+texture = SubResource("CanvasTexture_6khme")

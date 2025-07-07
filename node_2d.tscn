@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7jtv17bfdkwl"]
+
+[ext_resource type="PackedScene" uid="uid://cx7itu4jsixfe" path="res://scenes/Player/racket.tscn" id="1_wtcfe"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Racket" parent="." instance=ExtResource("1_wtcfe")]
+position = Vector2(-208, 584)
+speed = 500
