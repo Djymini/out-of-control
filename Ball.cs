@@ -3,7 +3,8 @@ using System;
 
 public partial class Ball : CharacterBody2D
 {
-    private float speed = 500;
+    private float speed = 350;
+    private int damage = 3;
     private Boolean isPitching;
     private CharacterBody2D racket;
 
@@ -12,22 +13,11 @@ public partial class Ball : CharacterBody2D
         Initializing();
     }
 
-
     public override void _PhysicsProcess(double delta)
     {
         GetInput();
-        if (!isPitching)
-        {
-            Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
-        }
-        else
-        {
-            var collision = MoveAndCollide(Velocity * (float)delta);
-            if (collision != null)
-            {
-                Velocity = Velocity.Bounce(collision.GetNormal());
-            }
-        }
+        checkPitching(delta);
+        
     }
 
     public void Initializing()
@@ -35,6 +25,7 @@ public partial class Ball : CharacterBody2D
         isPitching = false;
         racket = GetNode<CharacterBody2D>("../Racket");
         Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
+        Rotation = racket.Rotation;
     }
 
     private void GetInput()
@@ -44,8 +35,28 @@ public partial class Ball : CharacterBody2D
         if (shoot)
         {
             isPitching = true;
-            Velocity = new Vector2(0, -speed).Rotated(Rotation);
+            Velocity = new Vector2(speed, speed).Rotated(Rotation);
         }
-        
+    }
+
+    private void checkPitching(double delta)
+    {
+        if (!isPitching)
+        {
+            Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
+        }
+        else
+        {
+            BallMoved(delta);
+        }
+    }
+
+    private void BallMoved(double delta)
+    {
+        var collision = MoveAndCollide(Velocity * (float)delta);
+        if (collision != null)
+        {
+            Velocity = Velocity.Bounce(collision.GetNormal());
+        }
     }
 }
