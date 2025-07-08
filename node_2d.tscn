@@ -8,7 +8,7 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Racket" parent="." instance=ExtResource("1_wtcfe")]
-position = Vector2(-192, 576)
+position = Vector2(-200, 584)
 speed = 500
 
 [node name="Wall" type="Node2D" parent="."]
@@ -24,4 +24,4 @@ position = Vector2(608, 28)
 position = Vector2(0, -356)
 
 [node name="Ball" parent="." instance=ExtResource("4_0hol4")]
-position = Vector2(-192, 456)
+position = Vector2(-200, 424)

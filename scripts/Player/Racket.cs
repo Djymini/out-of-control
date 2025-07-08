@@ -14,10 +14,12 @@ public partial class Racket : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        float originalY = Position.Y;
         var velocity = Velocity;
         Velocity = velocity;
         GetInput();
         MoveAndSlide();
+        Position = new Vector2(Position.X, originalY);
     }
 
     private void GetInput()
