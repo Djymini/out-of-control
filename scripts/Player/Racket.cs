@@ -5,7 +5,7 @@ public partial class Racket : CharacterBody2D
 {
     [Export] private int speed;
     [Export] private int strength;
-    private Vector2 startPosition = new Vector2(1152/2, 576);
+    private Vector2 startPosition = new Vector2(1152 / 2, 576);
 
     public override void _Ready()
     {
