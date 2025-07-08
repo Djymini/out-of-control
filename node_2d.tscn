@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7jtv17bfdkwl"]
+[gd_scene load_steps=6 format=3 uid="uid://c7jtv17bfdkwl"]
 
 [ext_resource type="PackedScene" uid="uid://cx7itu4jsixfe" path="res://scenes/Player/racket.tscn" id="1_wtcfe"]
 [ext_resource type="PackedScene" uid="uid://j28jbpbbudkb" path="res://scenes/Level/wall_horizotal.tscn" id="2_0e48y"]
 [ext_resource type="PackedScene" uid="uid://bikrbm8uhk3tu" path="res://scenes/Level/wall_vertical.tscn" id="3_epypp"]
 [ext_resource type="PackedScene" uid="uid://faeskey58mrs" path="res://scenes/Player/ball.tscn" id="4_0hol4"]
+[ext_resource type="PackedScene" uid="uid://bd3tlhcb1e7xh" path="res://scenes/Enemy/enemy.tscn" id="5_q6r6c"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -25,3 +26,6 @@ position = Vector2(0, -356)
 
 [node name="Ball" parent="." instance=ExtResource("4_0hol4")]
 position = Vector2(-200, 424)
+
+[node name="Enemy" parent="." instance=ExtResource("5_q6r6c")]
+position = Vector2(288, 160)

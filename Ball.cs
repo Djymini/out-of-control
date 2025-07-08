@@ -15,9 +15,7 @@ public partial class Ball : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        GetInput();
         checkPitching(delta);
-        
     }
 
     public void Initializing()
@@ -43,6 +41,7 @@ public partial class Ball : CharacterBody2D
     {
         if (!isPitching)
         {
+            GetInput();
             Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
         }
         else
