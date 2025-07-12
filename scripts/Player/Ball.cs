@@ -46,16 +46,30 @@ public partial class Ball : CharacterBody2D
         }
         else
         {
-            BallMoved(delta);
+            var collision = BallMoved(delta);
+            CollideEnemy(collision);
         }
     }
 
-    private void BallMoved(double delta)
+    private Node2D BallMoved(double delta)
+{
+    var collision = MoveAndCollide(Velocity * (float)delta);
+    if (collision != null)
     {
-        var collision = MoveAndCollide(Velocity * (float)delta);
-        if (collision != null)
+        Velocity = Velocity.Bounce(collision.GetNormal());
+        return (Node2D)collision.GetCollider();
+    }
+
+    return null;
+}
+
+
+    private void CollideEnemy(Node2D collision)
+    {
+        if (collision is Enemy enemy)
         {
-            Velocity = Velocity.Bounce(collision.GetNormal());
+            GD.Print(collision);
+            enemy.Hit(damage);
         }
     }
 }

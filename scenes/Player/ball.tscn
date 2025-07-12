@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://faeskey58mrs"]
 
-[ext_resource type="Script" uid="uid://b1a0uvbhtqxdg" path="res://Ball.cs" id="1_v4u2r"]
+[ext_resource type="Script" uid="uid://b1a0uvbhtqxdg" path="res://scripts/Player/Ball.cs" id="1_v4u2r"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_q6r6c"]
 
@@ -8,6 +8,8 @@
 radius = 8.0
 
 [node name="Ball" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_v4u2r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
