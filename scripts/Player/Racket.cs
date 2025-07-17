@@ -41,8 +41,16 @@ public partial class Racket : CharacterBody2D
         Velocity = velocity;
     }
 
-    public void SuperChargeUpint(int point, int coeff)
+    public void SuperChargeUp(int point, int coeff)
     {
-        this.superCharge += point * coeff;
+        if (this.superCharge < 100)
+        {
+            this.superCharge += point * coeff;
+            GD.Print("Super Charge : " + this.superCharge);
+        }
+        else
+        {
+            GD.Print("Tir chargée !!");
+        }
     }
 }
