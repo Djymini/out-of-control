@@ -5,19 +5,23 @@ public partial class Racket : CharacterBody2D
 {
     [Export] private int speed;
     [Export] private int strength;
-    private Vector2 startPosition = new Vector2(1152/2, 576);
+    [Export] private Vector2 startPosition;
+    private int superCharge;
 
     public override void _Ready()
     {
         Position = startPosition;
+        superCharge = 0;
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        float originalY = Position.Y;
         var velocity = Velocity;
         Velocity = velocity;
         GetInput();
         MoveAndSlide();
+        Position = new Vector2(Position.X, originalY);
     }
 
     private void GetInput()
@@ -35,5 +39,18 @@ public partial class Racket : CharacterBody2D
             velocity.X -= speed;
 
         Velocity = velocity;
+    }
+
+    public void SuperChargeUp(int point, int coeff)
+    {
+        if (this.superCharge < 100)
+        {
+            this.superCharge += point * coeff;
+            GD.Print("Super Charge : " + this.superCharge);
+        }
+        else
+        {
+            GD.Print("Tir chargée !!");
+        }
     }
 }
