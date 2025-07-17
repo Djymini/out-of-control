@@ -10,15 +10,15 @@ public partial class Ball : CharacterBody2D
 
     public override void _Ready()
     {
-        Initializing();
+        InitializeTheBall();
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        checkPitching(delta);
+        BallMovement(delta);
     }
 
-    public void Initializing()
+    private void InitializeTheBall()
     {
         isPitching = false;
         racket = GetNode<CharacterBody2D>("../Racket");
@@ -26,7 +26,20 @@ public partial class Ball : CharacterBody2D
         Rotation = racket.Rotation;
     }
 
-    private void GetInput()
+    private void BallMovement(double delta)
+    {
+        if (!isPitching)
+        {
+            ShootTheBall();
+            Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
+        }
+        else
+        {
+            BallMove(delta);
+        }
+    }
+
+    private void ShootTheBall()
     {
         var shoot = Input.IsActionPressed("shoot");
 
@@ -37,54 +50,43 @@ public partial class Ball : CharacterBody2D
         }
     }
 
-    private void checkPitching(double delta)
+    private void BallMove(double delta)
     {
-        if (!isPitching)
+        KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
+
+        if (collision != null)
         {
-            GetInput();
-            Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
+            CollisionManager(collision);
+        }
+    }
+
+    private void CollisionManager(KinematicCollision2D collision)
+    {
+        Node2D node = (Node2D)collision.GetCollider();
+        if (node is Enemy enemy)
+        {
+            CollisionWithEnemy(enemy, collision);
+        }
+        else if (node is Racket racket)
+        {
+            CollisionWithRacket(racket, collision);
         }
         else
         {
-            var collision = BallMoved(delta);
-            CollideEnemy(collision);
+            Velocity = Velocity.Bounce(collision.GetNormal());
         }
     }
 
-    private Node2D BallMoved(double delta)
+    private void CollisionWithEnemy(Enemy enemy, KinematicCollision2D collision)
     {
-        var collision = MoveAndCollide(Velocity * (float)delta);
-        if (collision != null)
-        {
-            Node2D node = (Node2D)collision.GetCollider();
-            if (node.Name == "Racket")
-            {
-                CheckCollideWithRacket(node, collision);
-            }
-            else
-            {
-                Velocity = Velocity.Bounce(collision.GetNormal());
-            }
-            return node;
-        }
-
-        return null;
+        enemy.Hit(damage);
+        Velocity = Velocity.Bounce(collision.GetNormal());
     }
 
-
-    private void CollideEnemy(Node2D collision)
+    private void CollisionWithRacket(Racket racket, KinematicCollision2D collision)
     {
-        if (collision is Enemy enemy)
-        {
-            GD.Print(collision);
-            enemy.Hit(damage);
-        }
-    }
-
-    private void CheckCollideWithRacket(Node2D node, KinematicCollision2D collision)
-    {
-        float leftPart = node.Position.X - 40;
-        float rightPart = node.Position.X + 40;
+        float leftPart = racket.Position.X - 40;
+        float rightPart = racket.Position.X + 40;
 
         if (Position.X <= leftPart)
         {
