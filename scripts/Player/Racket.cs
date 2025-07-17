@@ -6,10 +6,12 @@ public partial class Racket : CharacterBody2D
     [Export] private int speed;
     [Export] private int strength;
     [Export] private Vector2 startPosition;
+    private int superCharge;
 
     public override void _Ready()
     {
         Position = startPosition;
+        superCharge = 0;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -37,5 +39,10 @@ public partial class Racket : CharacterBody2D
             velocity.X -= speed;
 
         Velocity = velocity;
+    }
+
+    public void SuperChargeUpint(int point, int coeff)
+    {
+        this.superCharge += point * coeff;
     }
 }

@@ -3,8 +3,8 @@ using System;
 
 public partial class Ball : CharacterBody2D
 {
-    private float speed = 350;
-    private int damage = 3;
+    [Export] private float speed;
+    [Export] private int damage;
     private Boolean isPitching;
     private CharacterBody2D racket;
 
@@ -52,16 +52,24 @@ public partial class Ball : CharacterBody2D
     }
 
     private Node2D BallMoved(double delta)
-{
-    var collision = MoveAndCollide(Velocity * (float)delta);
-    if (collision != null)
     {
-        Velocity = Velocity.Bounce(collision.GetNormal());
-        return (Node2D)collision.GetCollider();
-    }
+        var collision = MoveAndCollide(Velocity * (float)delta);
+        if (collision != null)
+        {
+            Node2D node = (Node2D)collision.GetCollider();
+            if (node.Name == "Racket")
+            {
+                CheckCollideWithRacket(node, collision);
+            }
+            else
+            {
+                Velocity = Velocity.Bounce(collision.GetNormal());
+            }
+            return node;
+        }
 
-    return null;
-}
+        return null;
+    }
 
 
     private void CollideEnemy(Node2D collision)
@@ -70,6 +78,25 @@ public partial class Ball : CharacterBody2D
         {
             GD.Print(collision);
             enemy.Hit(damage);
+        }
+    }
+
+    private void CheckCollideWithRacket(Node2D node, KinematicCollision2D collision)
+    {
+        float leftPart = node.Position.X - 40;
+        float rightPart = node.Position.X + 40;
+
+        if (Position.X <= leftPart)
+        {
+            Velocity = new Vector2(speed, speed).Rotated(Rotation);
+        }
+        else if (Position.X >= rightPart)
+        {
+            Velocity = new Vector2(-speed, speed).Rotated(Rotation);
+        }
+        else
+        {
+            Velocity = Velocity.Bounce(collision.GetNormal());
         }
     }
 }

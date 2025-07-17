@@ -17,25 +17,33 @@ startPosition = Vector2(576, 576)
 position = Vector2(576, 324)
 
 [node name="WallHorizotal" parent="Wall" instance=ExtResource("2_0e48y")]
-position = Vector2(-608, 28)
+position = Vector2(-480, 92)
+collision_layer = 5
+collision_mask = 5
 
 [node name="WallHorizotal2" parent="Wall" instance=ExtResource("2_0e48y")]
-position = Vector2(608, 28)
+position = Vector2(480, 92)
+collision_layer = 5
+collision_mask = 5
 
 [node name="WallVertical" parent="Wall" instance=ExtResource("3_epypp")]
-position = Vector2(0, -356)
+position = Vector2(0, -292)
+collision_layer = 5
+collision_mask = 5
 
 [node name="Ball" parent="." instance=ExtResource("4_0hol4")]
 position = Vector2(-200, 424)
+speed = 300.0
+damage = 3
 
 [node name="Slime" parent="." instance=ExtResource("5_q6r6c")]
-position = Vector2(160, 160)
+position = Vector2(192, 184)
 
 [node name="Slime2" parent="." instance=ExtResource("5_q6r6c")]
-position = Vector2(672, 160)
+position = Vector2(664, 184)
 
 [node name="Slime3" parent="." instance=ExtResource("5_q6r6c")]
-position = Vector2(992, 96)
+position = Vector2(952, 128)
 
 [node name="Slime4" parent="." instance=ExtResource("5_q6r6c")]
-position = Vector2(480, 96)
+position = Vector2(448, 128)
