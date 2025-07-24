@@ -8,7 +8,7 @@ public partial class Racket : CharacterBody2D
     [Export] private int speed = 500;
     [Export] private Vector2 startPosition = new Vector2(576.0f, 576.0f);
     [Export] private int superCharge;
-    [Export] private int superChargeValueForUp = 5;
+    [Export] public int chargeAmountBase { get; set; } = 5;
 
     public override void _Ready()
     {

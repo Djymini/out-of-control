@@ -3,75 +3,75 @@ using System;
 
 public partial class Ball : CharacterBody2D
 {
-    [Export] private float speed;
-    [Export] private int damage;
-    private Boolean isPitching;
+    [Export] private float speed = 300;
+    [Export] private int damage = 3;
+    private bool isPitching;
     private int combo;
     private Racket racket;
 
     public override void _Ready()
     {
-        InitializeTheBall();
+        InitializeProperties();
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        BallMovement(delta);
+        UpdateMovement(delta);
     }
 
-    private void InitializeTheBall()
+    private void InitializeProperties()
     {
-        this.isPitching = false;
-        this.combo = 0;
-        this.racket = GetNode<Racket>("../Racket");
+        isPitching = false;
+        combo = 0;
+        racket = GetNode<Racket>("../Racket");
         Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
         Rotation = racket.Rotation;
     }
 
-    private void BallMovement(double delta)
+    private void UpdateMovement(double delta)
     {
-        if (!this.isPitching)
+        if (!isPitching)
         {
-            ShootTheBall();
+            MakeTheFirstShoot();
             Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
         }
         else
         {
-            BallMove(delta);
+            Move(delta);
         }
     }
 
-    private void ShootTheBall()
+    private void MakeTheFirstShoot()
     {
-        var shoot = Input.IsActionPressed("shoot");
+        var shoot = Input.IsActionJustPressed("shoot");
 
         if (shoot)
         {
-            this.isPitching = true;
+            isPitching = true;
             Velocity = new Vector2(speed, speed).Rotated(Rotation);
         }
     }
 
-    private void BallMove(double delta)
+    private void Move(double delta)
     {
         KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
 
         if (collision != null)
         {
-            CollisionManager(collision);
+            HandleCollision(collision);
         }
     }
 
-    private void CollisionManager(KinematicCollision2D collision)
+    private void HandleCollision(KinematicCollision2D collision)
     {
         Node2D node = (Node2D)collision.GetCollider();
         if (node is Enemy enemy)
         {
-            CollisionWithEnemy(enemy, collision);
+            HandleEnemyCollision(enemy, collision);
         }
         else if (node is Racket racket)
         {
-            CollisionWithRacket(racket, collision);
+            HandleRacketCollision(racket, collision);
         }
         else
         {
@@ -79,33 +79,38 @@ public partial class Ball : CharacterBody2D
         }
     }
 
-    private void CollisionWithEnemy(Enemy enemy, KinematicCollision2D collision)
+    private void HandleEnemyCollision(Enemy enemy, KinematicCollision2D collision)
     {
         enemy.Hit(damage);
-        this.combo++;
-        GD.Print("combo : " + this.combo);
-        this.racket.IncreaseSuperCharge(1, combo);
+        combo++;
+        GD.Print($"combo : {combo}");
+        racket.IncreaseSuperCharge(1, combo);
         Velocity = Velocity.Bounce(collision.GetNormal());
     }
 
-    private void CollisionWithRacket(Racket racket, KinematicCollision2D collision)
+    private void HandleRacketCollision(Racket racket, KinematicCollision2D collision)
     {
-        float leftPart = racket.Position.X - 40;
-        float rightPart = racket.Position.X + 40;
-        this.combo = 0;
-        if (Position.X <= leftPart)
+        float leftEdge = racket.Position.X - 40;
+        float rightEdge = racket.Position.X + 40;
+
+        int chargeAmount = racket.chargeAmountBase;
+        int edgeChargeAmount = racket.chargeAmountBase * 2 - racket.chargeAmountBase / 2;
+
+        combo = 0;
+
+        if (Position.X <= leftEdge)
         {
-            this.racket.IncreaseSuperCharge(7, 1);
+            racket.IncreaseSuperCharge(edgeChargeAmount, 1);
             Velocity = new Vector2(speed, speed).Rotated(Rotation);
         }
-        else if (Position.X >= rightPart)
+        else if (Position.X >= rightEdge)
         {
-            this.racket.IncreaseSuperCharge(7, 1);
+            racket.IncreaseSuperCharge(edgeChargeAmount, 1);
             Velocity = new Vector2(-speed, speed).Rotated(Rotation);
         }
         else
         {
-            this.racket.IncreaseSuperCharge(5, 1);
+            racket.IncreaseSuperCharge(chargeAmount, 1);
             Velocity = Velocity.Bounce(collision.GetNormal());
         }
     }
