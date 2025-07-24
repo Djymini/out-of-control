@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public partial class Ball : CharacterBody2D
 {
@@ -8,6 +10,7 @@ public partial class Ball : CharacterBody2D
     private bool isPitching;
     private int combo;
     private Racket racket;
+    private List<BallEffect> ballEffects;
 
     public override void _Ready()
     {
@@ -26,6 +29,13 @@ public partial class Ball : CharacterBody2D
         racket = GetNode<Racket>("../Racket");
         Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
         Rotation = racket.Rotation;
+        ballEffects = new List<BallEffect>();
+
+        //Test ne doit pa rester
+        ballEffects.Add(new FireEffect());
+        ballEffects.Add(new ElectricEffect());
+        ballEffects.Add(new LightEffect());
+        ballEffects.Add(new ExplodeEffect());
     }
 
     private void UpdateMovement(double delta)
@@ -56,6 +66,8 @@ public partial class Ball : CharacterBody2D
     {
         KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
 
+        ApplyBallEffectOnMove();
+
         if (collision != null)
         {
             HandleCollision(collision);
@@ -75,6 +87,7 @@ public partial class Ball : CharacterBody2D
         }
         else
         {
+            ApplyBallEffectOnBounceAgainWall();
             Velocity = Velocity.Bounce(collision.GetNormal());
         }
     }
@@ -82,6 +95,7 @@ public partial class Ball : CharacterBody2D
     private void HandleEnemyCollision(Enemy enemy, KinematicCollision2D collision)
     {
         enemy.Hit(damage);
+        ApplyBallEffectOnHitEnemy();
         combo++;
         GD.Print($"combo : {combo}");
         racket.IncreaseSuperCharge(1, combo);
@@ -112,6 +126,39 @@ public partial class Ball : CharacterBody2D
         {
             racket.IncreaseSuperCharge(chargeAmount, 1);
             Velocity = Velocity.Bounce(collision.GetNormal());
+        }
+    }
+
+    private void ApplyBallEffectOnHitEnemy()
+    {
+        if (ballEffects.Count < 1)
+            return;
+
+        foreach (var effect in ballEffects)
+        {
+            effect.ApplyOnHitEnemy();
+        }
+    }
+
+    private void ApplyBallEffectOnBounceAgainWall()
+    {
+        if (ballEffects.Count < 1 && Velocity.X != 0 && Velocity.Y != 0)
+            return;
+
+        foreach (var effect in ballEffects)
+        {
+            effect.ApplyOnBounceAgainWall();
+        }
+    }
+
+    private void ApplyBallEffectOnMove()
+    {
+        if (ballEffects.Count < 1)
+            return;
+
+        foreach (var effect in ballEffects)
+        {
+            effect.ApplyOnMove();
         }
     }
 }

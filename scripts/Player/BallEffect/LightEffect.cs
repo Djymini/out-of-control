@@ -1,22 +1,22 @@
 using Godot;
 using System;
 
-public class FireEffect : BallEffect
+public class LightEffect : BallEffect
 {
-    public FireEffect(){}
+    public LightEffect(){}
 
     public override void ApplyOnHitEnemy()
     {
-        GD.Print("Ennemie brulé !");
+        GD.Print("Ennemie Touché par la lumière !");
     }
 
     public override void ApplyOnBounceAgainWall()
     {
-        return;
+        GD.Print("Lumière diffusée");
     }
 
     public override void ApplyOnMove()
     {
-        GD.Print("Ca brule sur la route");
+        return;
     }
 }

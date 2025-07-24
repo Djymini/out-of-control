@@ -1,13 +1,13 @@
 using Godot;
 using System;
 
-public class FireEffect : BallEffect
+public class ElectricEffect : BallEffect
 {
-    public FireEffect(){}
+    public ElectricEffect(){}
 
     public override void ApplyOnHitEnemy()
     {
-        GD.Print("Ennemie brulé !");
+        GD.Print("Ennemie electrocuté !");
     }
 
     public override void ApplyOnBounceAgainWall()
@@ -17,6 +17,6 @@ public class FireEffect : BallEffect
 
     public override void ApplyOnMove()
     {
-        GD.Print("Ca brule sur la route");
+        return;
     }
 }
