@@ -84,7 +84,7 @@ public partial class Ball : CharacterBody2D
         enemy.Hit(damage);
         this.combo++;
         GD.Print("combo : " + this.combo);
-        this.racket.SuperChargeUp(1, combo);
+        this.racket.IncreaseSuperCharge(1, combo);
         Velocity = Velocity.Bounce(collision.GetNormal());
     }
 
@@ -95,17 +95,17 @@ public partial class Ball : CharacterBody2D
         this.combo = 0;
         if (Position.X <= leftPart)
         {
-            this.racket.SuperChargeUp(7, 1);
+            this.racket.IncreaseSuperCharge(7, 1);
             Velocity = new Vector2(speed, speed).Rotated(Rotation);
         }
         else if (Position.X >= rightPart)
         {
-            this.racket.SuperChargeUp(7, 1);
+            this.racket.IncreaseSuperCharge(7, 1);
             Velocity = new Vector2(-speed, speed).Rotated(Rotation);
         }
         else
         {
-            this.racket.SuperChargeUp(5, 1);
+            this.racket.IncreaseSuperCharge(5, 1);
             Velocity = Velocity.Bounce(collision.GetNormal());
         }
     }

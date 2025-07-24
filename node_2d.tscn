@@ -10,8 +10,6 @@
 
 [node name="Racket" parent="." instance=ExtResource("1_wtcfe")]
 position = Vector2(-144, 576)
-speed = 500
-startPosition = Vector2(576, 576)
 
 [node name="Wall" type="Node2D" parent="."]
 position = Vector2(576, 324)
