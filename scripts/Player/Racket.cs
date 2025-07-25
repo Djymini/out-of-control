@@ -9,6 +9,8 @@ public partial class Racket : CharacterBody2D
     [Export] private Vector2 startPosition = new Vector2(576.0f, 576.0f);
     [Export] private int superCharge;
     [Export] public int chargeAmountBase { get; set; } = 5;
+    [Export] private Node2D shootPoint;
+    [Export] private PackedScene superShootPrefab;
 
     public override void _Ready()
     {
@@ -58,7 +60,9 @@ public partial class Racket : CharacterBody2D
 
     private void PerformSuperShoot()
     {
-        GD.Print("A implémenter plus tard : Super Tir effectué ! ");
+        var superShoot = (SuperShoot)superShootPrefab.Instantiate();
+        superShoot.Position = shootPoint.GlobalPosition;
+        GetTree().Root.AddChild(superShoot);
         superCharge = 0;
     }
 

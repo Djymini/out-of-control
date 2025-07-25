@@ -30,12 +30,6 @@ public partial class Ball : CharacterBody2D
         Position = new Vector2(racket.Position.X, racket.Position.Y - 24);
         Rotation = racket.Rotation;
         ballEffects = new List<BallEffect>();
-
-        //Test ne doit pa rester
-        ballEffects.Add(new FireEffect());
-        ballEffects.Add(new ElectricEffect());
-        ballEffects.Add(new LightEffect());
-        ballEffects.Add(new ExplodeEffect());
     }
 
     private void UpdateMovement(double delta)

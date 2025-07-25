@@ -16,14 +16,14 @@ public abstract partial class SuperShoot : Area2D
 
     public override void _Process(double delta)
     {
-        speed += delta * 2;
-        Position += (float)speed * (float)delta * direction;
+        Move(delta, speed, direction);
     }
 
+    public abstract void Move(double delta, double speed, Vector2 direction);
 
     public abstract void InitializeEffect();
 
-    public void HandleEnemyCollision(Enemy enemy, KinematicCollision2D collision)
+    public void HandleEnemyCollision(Enemy enemy)
     {
         if (data == null)
             return;
@@ -32,5 +32,15 @@ public abstract partial class SuperShoot : Area2D
 
         if (effect != null)
             effect.ApplyOnHitEnemy();
+
+        QueueFree();
+    }
+
+    public void OnBodyEntered(Node2D body)
+    {
+        if (body is Enemy enemy)
+        {
+            HandleEnemyCollision(enemy);
+        }
     }
 }
