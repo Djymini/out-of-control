@@ -10,8 +10,7 @@
 
 [node name="Racket" parent="." instance=ExtResource("1_wtcfe")]
 position = Vector2(-144, 576)
-speed = 500
-startPosition = Vector2(576, 576)
+superCharge = 100
 
 [node name="Wall" type="Node2D" parent="."]
 position = Vector2(576, 324)
@@ -33,8 +32,6 @@ collision_mask = 5
 
 [node name="Ball" parent="." instance=ExtResource("4_0hol4")]
 position = Vector2(-200, 424)
-speed = 300.0
-damage = 3
 
 [node name="Slime" parent="." instance=ExtResource("5_q6r6c")]
 position = Vector2(192, 184)

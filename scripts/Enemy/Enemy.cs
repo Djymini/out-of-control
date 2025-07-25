@@ -19,7 +19,7 @@ public abstract partial class Enemy : StaticBody2D
         GD.Print("Life : " + this.currentLife + "/" + data.life);
         if (this.currentLife < 0)
         {
-            GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
+            GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set_disabled", true);
             QueueFree();
         }
     }

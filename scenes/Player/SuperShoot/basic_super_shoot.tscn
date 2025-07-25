@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://rfeiex2fkjd6"]
+
+[ext_resource type="Script" uid="uid://d3lcsb2f1vgih" path="res://scripts/Player/SuperShoot/BasicSuperShoot.cs" id="1_22m6e"]
+[ext_resource type="Script" uid="uid://s571u1drod8x" path="res://scripts/Data/SuperShootData.cs" id="2_fcxs8"]
+
+[sub_resource type="Resource" id="Resource_rej6g"]
+script = ExtResource("2_fcxs8")
+name = "Super tir normal"
+description = "Super tir de base"
+speed = 300
+damage = 30
+metadata/_custom_type_script = "uid://s571u1drod8x"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ho0bc"]
+size = Vector2(32, 32)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_3iy7k"]
+
+[node name="BasicSuperShoot" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_22m6e")
+data = SubResource("Resource_rej6g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ho0bc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(32, 32)
+texture = SubResource("CanvasTexture_3iy7k")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
